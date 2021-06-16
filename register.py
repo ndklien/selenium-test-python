@@ -7,19 +7,21 @@ import time
 
 import openpyxl
 
-path = "./White box Testing.xlsx"
+path = "./White box Testing_new16062021.xlsx"
 
 lab2 = openpyxl.load_workbook(path)
 register_test = lab2["Function1"]
 columns = register_test.max_column
+rows = register_test.max_row
+print(rows)
 
-exception_case = [45, 46]
+exception_case = [rows-5, rows-6]
 
 # Tạo ra danh sách các test case
 test_case = []
 for c in range(6, columns):
     unit = []
-    for r in range(13, 47):
+    for r in range(13, rows-4):
         checked = register_test.cell(row=r, column=c).value
         if checked == "O":
             # print("row number ", r)
@@ -42,6 +44,7 @@ failed = 0
 succeed = 0
 for test in test_case:
     i += 1
+    print("Testing:", i)
     if test[7] in exception_case:
         untested_cases += 1
         continue
@@ -83,7 +86,7 @@ for test in test_case:
             else:
                 print("Test case", i, "failed!")
                 failed += 1
-
+            print("Actual alert: " + alert_msg.text)
             alert_msg.accept()
         else:
             continue
